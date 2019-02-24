@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blog . Ankur Nigam</title>
+</head>
+
+<body>
+    <nav></nav>
+    <section id="sugesstion"></section>
+    <section id="body">
+        <h3>Nullable Reference Types</h3>
+        <h2>Adventures with C# 8</h2>
+        <div id="content">
+            <article>
+                <h4>How it all started</h4>
+                So today I finally migrated to VS 2019 preview and dotnet core 3 (and started this blog too). First
+                thing I was interested to try was the new Nullable Reference types. I found instruction how to migrate
+                your code for C# 8 and its new features, but I was not ready yet to make the mess and then fixing it.
+                <br>
+
+                I created a new project with dotnet core 3, and nothing happened, null was treated like before. Here's
+                how to fix it. <br>
+            </article>
+            <article>
+                <h4>If you are like me and want to first experiment on Hello World application then:-</h4>
+
+                in <code>csproj</code> file add these two lines <br>
+                <code>
+                    &lt;LangVersion&gt;8.0&lt;/LangVersion&gt; <br>
+                    &lt;NullableContextOptions&gt;enable&lt;/NullableContextOptions&gt;
+                </code>
+                <br>
+                <code>NullableContextOptions</code> applies Nullable Reference types features for the whole project.
+                <br>
+                <div class="warning">
+                    This setting will be enabled by default when C# 8 is released (not in preview mode). So if you are
+                    watching in future you don't have to do anything.
+                </div>
+            </article>
+            <article>
+                If you are ready to upgrade your projects to C# 8 you can do what the same as above, but you will be
+                bombarded with thousands of warning for using null objects. It can become some what overwhelming. In
+                this situation you might want to only enable this feature for a limited files.
+                <h4>To enable locally on a file:-</h4>
+
+                in <code>csproj</code> file add these two lines <br>
+                <code>
+                    &lt;LangVersion&gt;8.0&lt;/LangVersion&gt; <br>
+                    &lt;NullableReferenceTypes&gt;enable&lt;/NullableReferenceTypes&gt;
+                </code>
+                <br>
+                Notice that here we are using <code>&lt;NullableReferenceTypes&gt;enable&lt;/NullableReferenceTypes&gt;</code>
+                instead of <code>&lt;NullableContextOptions&gt;enable&lt;/NullableContextOptions&gt;</code>.
+                <br>
+                <br>
+                To tell C# compiler which files should have null reference checking we will then have to add <code>#nullable
+                    enable</code> preprocessor directive on top of file. And that's it.
+            </article>
+
+            <article>
+                So what this feature actually does, well it can be a whole article in separate but to have an overview
+                it can be understood as a feature that checks for null reference during compile time. You will have to
+                declare with <code>&lt;T&gt;?</code> to allow that variable to store null. So whenever you try to
+                consume that variable later visual studio will give you a warning that it could be null and should have
+                null checking. <br>
+                Roslyn compiler is smart enough to understand when you have checked for null (e.g. by <code>?</code>,<code>??</code>,
+                <code> == null</code>,etc ) and will not give you any warnings.
+                <br>
+                However this does not make your code null-safe. Some exceptions are:-
+                <br>
+                If your code or some external dependency was not compiled with this feature enabled compiler could not
+                give warnings.
+            </article>
+
+            <article>
+                For more information you should see:
+                <br>
+                <a href="https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/nullable-reference-types">Design with
+                    nullable types</a>
+                <br>
+                <a href="https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-core-3-0">What's new in dotnet
+                    core 3</a>
+                <br>
+                <a href="https://devblogs.microsoft.com/dotnet/take-c-8-0-for-a-spin/">C# 8 for a spin</a>
+            </article>
+        </div>
+    </section>
+    <footer></footer>
+</body>
+
+</html>
